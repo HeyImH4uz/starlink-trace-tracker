@@ -127,7 +127,8 @@ def main():
                 # get the measure_trace between two snr data
                 measure_trace = diff(snr_data_array[-2], snr_data_array[-1])
 
-                times = ts.linspace(timeline[-2], timeline[-1], num=15)
+                # plot-time num is the amount of seconds the trace-tracker is running for one plot
+                times = ts.linspace(timeline[-2], timeline[-1], num=1)
 
                 
                 min_distance = 100000
@@ -233,8 +234,8 @@ def main():
                 plt.savefig('figures/starlink_match_plots' + " from " + str(timeline[-1].utc_datetime()) + " to " + str(timeline[-2].utc_datetime()) + '.png')
                 plt.close(fig)
 
-
-            if len(snr_data_array) >= 60:
+            # total-time: This is a check how often the measurements are done. For more accurate testing, I set this to an hour (1*60*60 =3600)
+            if len(snr_data_array) >= 3600:
                 break
             
         # Sleep for 1 second to prevent constant checking
