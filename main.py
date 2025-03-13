@@ -88,7 +88,7 @@ def main():
         context = starlink_grpc.ChannelContext()
         starlink_grpc.reboot(context)
 
-        # Wait for 1 minute for the dish to reboot
+        # Wait for 3 minutes for the dish to reboot
         print("Dish rebooted, waiting for 3 minutes ...")
         time.sleep(180)
 
@@ -129,8 +129,8 @@ def main():
                 # get the measure_trace between two snr data
                 measure_trace = diff(snr_data_array[-2], snr_data_array[-1])
 
-                # plot-time num is the amount of seconds the trace-tracker is running for one plot
-                times = ts.linspace(timeline[-2], timeline[-1], num=1)
+                # plot-time num is the amount of seconds the trace-tracker is running for one plot (WRONG, plot-time is set somewhere else)
+                times = ts.linspace(timeline[-2], timeline[-1], num=15)
 
                 
                 min_distance = 100000
@@ -232,12 +232,15 @@ def main():
                 ax0.legend(loc='upper right', bbox_to_anchor=(1.4, 1))
                 ax1.legend(loc='upper right', bbox_to_anchor=(1.4, 1))
                 ax2.legend(loc='upper right', bbox_to_anchor=(1.4, 1))
-                # plt.show()# Save the figure
-                plt.savefig('figures/starlink_match_plots' + " from " + str(timeline[-1].utc_datetime()) + " to " + str(timeline[-2].utc_datetime()) + '.png')
+                # plt.show()
+                # Save the figure
+                # plt.savefig('figures/starlink_match_plots' + " from " + str(timeline[-1].utc_datetime()) + " to " + str(timeline[-2].utc_datetime()) + '.png')
+                # Changed file-name due to restrictions on Windows OS
+                plt.savefig('figures/starlink_match_plots' + '_nr_' + str(len(snr_data_array)) + '.png')
                 plt.close(fig)
 
-            # total-time: This is a check how often the measurements are done. For more accurate testing, I set this to an hour (1*60*60 =3600)
-            if len(snr_data_array) >= 3600:
+            # total-time: This is a check how often the measurements are done. For more accurate testing, I set this to half an hour (15s * 120 = 30 min)
+            if len(snr_data_array) >= 120:
                 break
             
         # Sleep for 1 second to prevent constant checking
