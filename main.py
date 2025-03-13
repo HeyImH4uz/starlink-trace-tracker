@@ -13,6 +13,8 @@ from scipy.spatial.distance import euclidean
 import numpy as np
 import starlink_grpc
 
+# jump to total-time / plot-time to see changes
+
 def get_args():
     parser = argparse.ArgumentParser(description='Satellite Tracking')
     parser.add_argument('--url', action='store_true',
