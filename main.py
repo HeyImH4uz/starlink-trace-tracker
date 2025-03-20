@@ -15,7 +15,7 @@ import starlink_grpc
 
 # jump to total-time / plot-time to see changes
 
-def get_args():
+def peget_args():
     parser = argparse.ArgumentParser(description='Satellite Tracking')
     parser.add_argument('--url', action='store_true',
                         help='Download TLE data from default URL')
@@ -115,6 +115,7 @@ def main():
         current_time = time.localtime()
 
         # Check if it's exactly on the half hour or hour
+        # plot-time is calculated here.
         if current_time.tm_sec % 15 == 14:
             t = ts.now()
             snr_data = get_snr_data(current_time)
@@ -129,7 +130,6 @@ def main():
                 # get the measure_trace between two snr data
                 measure_trace = diff(snr_data_array[-2], snr_data_array[-1])
 
-                # plot-time num is the amount of seconds the trace-tracker is running for one plot (WRONG, plot-time is set somewhere else)
                 times = ts.linspace(timeline[-2], timeline[-1], num=15)
 
                 
