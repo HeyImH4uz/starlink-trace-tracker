@@ -67,21 +67,21 @@ def diff(array1, array2):
 def main():
     
     args = get_args()
+    # We always download the latest TLE, if statement always goes false.
+    ## if args.url:
+    default_url = "https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle"
 
-    if args.url:
-        default_url = "https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle"
+    # Use requests to download the data
+    response = requests.get(default_url)
 
-        # Use requests to download the data
-        response = requests.get(default_url)
-
-        # Check that the request was successful
-        if response.status_code == 200:
-            # Save the content to a local file
-            with open('starlink.txt', 'w') as file:
-                file.write(response.text)
-        else:
-            print(f"Failed to download data, status code: {response.status_code}")
-            exit()
+    # Check that the request was successful
+    if response.status_code == 200:
+        # Save the content to a local file
+        with open('starlink.txt', 'w') as file:
+            file.write(response.text)
+    else:
+        print(f"Failed to download data, status code: {response.status_code}")
+        exit()
 
     if not args.skipreboot:
         # reboot starlink dish
